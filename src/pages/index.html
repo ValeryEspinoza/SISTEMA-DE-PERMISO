@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Home</title>
+	<meta charset="UTF-8" />
+	<link rel="stylesheet" href="../css/index.css">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+
+<body>
+ 
+	<nav class="contenedorNav" data-bs-theme="dark">
+		<ul class="nombrePagina">
+			<h2>Solicitudes</h2>
+		</ul>
+		<ul class="columna2">
+
+			<li class="nav-item">
+			  <a class="nav-link active" aria-current="page" href="#">Registrar Usuario</a>
+			</li>
+			<li class="nav-item">
+			  <a class="nav-link" href="#">Solicitudes Aceptadas</a>
+			</li>
+			<li class="nav-item">
+			  <a class="nav-link" href="#">Historial de Solicitudes</a>
+			</li>
+			
+		</ul>
+	
+		<ul class="columna3">
+
+			<li class="nav-item">
+			  <select  id="acceso">
+				<!--<option value="">Acceso</option>-->
+				<option value="Administrador">Administrador</option>
+				<!--<option value="Colaborador">Colaborador</option>-->
+			  </select>
+			</li>
+
+			<li class="nav-item">
+				<a class="nav-link active" aria-current="page" href="#"><img class="icon" src="../img/address-book-regular.svg" alt="c"></a>
+			</li>
+
+			<li class="nav-item">
+				<a class="nav-link" href="#"><img class="icon" src="../img/gear-solid.svg" alt="c"></a>
+			</li>
+		</ul>
+
+	  </nav>
+
+
+
+	
+	  
+	  <section class="saludo">
+		<div class="contenedorSaludo">
+		 <h2>Formulario de Solicitudes</h2>
+		</div>
+		</section>
+
+		<ul class="ContenedorLista">
+		
+		<div class="contenedorItems">
+		<li class="item">
+			<input id="nombre" placeholder="Nombre Completo" class="inputStyle" type="text"></input>
+		</li>
+
+		<li class="item">
+			<input id="id" placeholder="Identificación" class="inputStyle" type="text"></input>
+		</li>
+		<li class="item">
+			<input id="sede" placeholder="Sede" class="inputStyle" type="text"></input>
+		</li>
+		<li class="item">
+			<input id="laptopCode" placeholder="Codigo de la Computadora" class="inputStyle" type="text"></input>
+		</li>
+		<li class="item">
+		
+			<input id="fechaS" placeholder="Fecha de Salida" class="inputFecha" type="datetime-local" >
+		</li><p>Fecha de Salida</p>
+
+		
+		<li class="item">
+			<input id="fechaR" placeholder="Fecha de Regreso" class="inputFecha" type="datetime-local" >
+		</li><p>Fecha de Regreso</p>
+		<br>
+		<li>
+			
+			<input id="terminos"  type="checkbox" name="" >He leido y acepto los terminos</input>
+		</li> <div id="men"></div>
+		<br>
+		
+			
+		<button id="aplicar" class="btnStyle">Aplicar Solicitud</button> <br>
+		
+
+		
+	</ul>
+
+	<div id="contenedorFondoSolicitudes" class="contenedorFondoSolicitudes">
+		<div id="contenedorPrincipal" class="contenedorPrincipal"></div>
+	</div>
+	
+	
+
+	
+
+</div>
+
+
+<footer class="filas">
+    <div class="footerColumns">
+
+        <div class="footerSection1">
+            <p class=""> <img src="#" alt=" mail"> ¿Quienes Somos?</p>
+        </div>
+
+        <div class="footerSection2">
+            
+			Funcionalidades
+        </div>
+
+        <div class="footerSections3">
+             
+            
+			<div>
+                Síganos en
+                <div  class="lista2">
+                    
+                    <input class="iconItem" type="image" src="../img/twitter-brands-solid.svg" alt="IconTwitter">
+                    <input class="iconItem" type="image" src="#" alt="IconFacebook">
+                    <input class="iconItem" type="image" src="#" alt="IconInstagram">
+                    <input class="iconItem" type="image" src="#" alt="IconYoutube">
+                </div>
+            </div>
+            
+          
+        </div>
+    </div>
+
+    <p class="textoFinal">Todos los derechos reservados © Solicitudes ©2024.
+        Fecha de Última Modificación en el Portal: 8/08/2024
+    </p>
+</footer>
+
+	<script type="module" src="../js/index.js"></script>
+</body>
+</html>
