@@ -4,20 +4,11 @@ body{
     background-size: 100% ;
     
 }   
-.ContenedorLista{
-    height: auto;
-    width: auto;
-    list-style: none;
-    padding: 1em;
-    text-align: center;
-    align-content: center;
-    background-color: rgba(53, 51, 51, 0.541);
-   
- }
+
 
 .contenedorNav{
     display: grid;
-    grid-template-columns:30% 50% 30%;
+    grid-template-columns:30% 50% 20%;
     background-color: #d3a785;
      border-bottom:rgb(0, 0, 0);
      height: 55px;
@@ -41,7 +32,7 @@ body{
 
 .columna3{
   display: grid;
-  grid-template-columns:90px 45px 45px 1px ;
+  grid-template-columns:60% 20% 20% ;
   height:90%;
   list-style: none;
   color: aliceblue;  
@@ -91,11 +82,16 @@ body{
     padding: 1em;
 }
 
-
-
-
-
-
+.contenedorLista{
+    height: auto;
+    width: auto;
+    list-style: none;
+    padding: 1em;
+    text-align: center;
+    align-content: center;
+    background-color: rgba(53, 51, 51, 0.541);
+   
+ }
 
 .contenedorItems{
     margin: auto;
@@ -178,6 +174,22 @@ align-content: center;
     width: 50%;
 }
 
+.iconFooter{
+    height: 35px;
+    width: 40%;
+    border: 1px solid white;
+    border-radius: 40%;
+    background-color: white;
+}
+.iconsContenedor{
+    display: grid;
+    grid-template-columns: repeat(4, 25%);
+    height: 100%;
+    align-content: center;
+    margin-left: 2em;
+    
+    
+}
 
 .footerColumns{
     display: grid;
@@ -186,14 +198,42 @@ align-content: center;
     background-color:  #a37857;
     border-color: black;
     color: white;
+    margin-top: 1em;
 }
 
 .filas{
     display: grid;
-    grid-template-rows: 60% 30%;
+    grid-template-rows: 75% 15%;
     background-color:  #a37857;
     border-color: black;
     color: white;
     text-align: center;
+    height: 200px;
 }
 
+.footerSections3{
+
+    display: grid;
+    grid-template-rows: 25% 75%;
+    text-align: center;
+    align-content: center;
+}
+
+.footerSection2{
+    display: grid;
+    grid-template-rows: 25% 75%;
+    text-align: center;
+    align-content: center;
+}
+
+.footerSection1{
+    display: grid;
+    grid-template-rows: 25% 75%;
+    text-align: center;
+    align-content: center;
+}
+
+.blockHover:hover{
+    background-color: none;
+    border-color: none;
+}

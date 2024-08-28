@@ -557,7 +557,284 @@ function hmrAccept(bundle, id) {
 }
 
 },{}],"dpzVq":[function(require,module,exports) {
+var _getRecuest = require("../server/GetRecuest");
+var _delete = require("../server/Delete");
+//Contenedores
+const contenedorPrincipal = document.getElementById("contenedorSolicitudes");
+const contenedorFiltradas = document.getElementById("contenedorFiltrados");
+const tituloFiltradoH2 = document.getElementById("tituloFiltrado");
+//  Clases de estilos
+contenedorPrincipal.className = "contenedoresSolicitudesJs";
+//Inputs
+const inputBuscar = document.getElementById("inputSearch");
+//Botones
+const btnBuscar = document.getElementById("btnSearch");
+const btnDejarDeFiltrar = document.getElementById("dejarDeFiltrar");
+const btnEliminatTodo = document.getElementById("eliminarTodo");
+function mostrarEnPantalla(lista, contenedorDiv) {
+    const contenedorSolicitud = document.createElement("div");
+    for(let index = 0; index < lista.length; index++){
+        //Get Nombre
+        contenedorSolicitud.style.backgroundColor = "";
+        const etiquetaNombre = document.createElement("h3");
+        etiquetaNombre.innerHTML = lista[index].nombre;
+        contenedorSolicitud.appendChild(etiquetaNombre);
+        etiquetaNombre.style.marginBottom = "1em";
+        //Get Fecha
+        const sumaFechaS = "Fecha Salida: " + lista[index].fechaSalida + " ";
+        const datoFechaS = sumaFechaS;
+        const etiquetaFechaS = document.createElement("p");
+        etiquetaFechaS.innerHTML = datoFechaS;
+        contenedorSolicitud.appendChild(etiquetaFechaS);
+        const fechaR = "Fecha Regreso: " + lista[index].fechaRegreso;
+        const datoFechaR = fechaR;
+        const etiquetaFechaR = document.createElement("p");
+        etiquetaFechaR.innerHTML = datoFechaR;
+        contenedorSolicitud.appendChild(etiquetaFechaR);
+        //Get LaptopCode
+        const etiquetaCode = document.createElement("p");
+        etiquetaCode.innerHTML = "Codigo de Computadora: " + lista[index].laptopCode;
+        contenedorSolicitud.appendChild(etiquetaCode);
+        contenedorSolicitud.classList.add("contenedorSolicitudCreado");
+        //Sede
+        const etiquetaSede = document.createElement("p");
+        etiquetaSede.innerHTML = "Sede: " + lista[index].sede;
+        contenedorSolicitud.appendChild(etiquetaSede);
+        //Get Status
+        const etiquetaStatus = document.createElement("h6");
+        etiquetaStatus.innerHTML = lista[index].estatus;
+        contenedorSolicitud.appendChild(etiquetaStatus);
+        //id
+        const id = lista[index].id;
+        //Boton Eliminar
+        const btnEliminar = document.createElement("button");
+        btnEliminar.innerHTML = "Eliminar";
+        contenedorSolicitud.appendChild(btnEliminar);
+        let sepa = document.createElement("hr");
+        contenedorSolicitud.appendChild(sepa);
+        btnEliminar.style.marginBottom = "8px";
+        contenedorDiv.appendChild(contenedorSolicitud);
+        btnEliminar.addEventListener("click", function() {
+            (0, _delete.deleteUserHistory)(id);
+            location.reload();
+        });
+    }
+}
+traerUsuarios();
+async function traerUsuarios() {
+    const listaUsuariosHistorial = await (0, _getRecuest.GetRecuestFromHistory)();
+    btnDejarDeFiltrar.style.display = "none";
+    mostrarEnPantalla(listaUsuariosHistorial, contenedorPrincipal);
+    for(let index = 0; index < listaUsuariosHistorial.length; index++){
+        const id = listaUsuariosHistorial[index].id;
+        const estatusLista = listaUsuariosHistorial[index].estatus;
+        const nombre = listaUsuariosHistorial[index].nombre;
+        const fechaRe = listaUsuariosHistorial[index].fechaRegreso;
+        const fechaSa = listaUsuariosHistorial[index].fechaSalida;
+        //Programacion de botones
+        btnBuscar.addEventListener("click", function() {
+            contenedorPrincipal.style.display = "none";
+            btnDejarDeFiltrar.style.display = "block";
+            if (inputBuscar.value === "Declinado") {
+                const listaFiltrada = listaUsuariosHistorial.filter((persona)=>persona.estatus === inputBuscar.value);
+                tituloFiltradoH2.innerHTML = "Solicitudes Declinadas";
+                contenedorFiltradas.className = "contenedoresSolicitudesJs";
+                mostrarEnPantalla(listaFiltrada, contenedorFiltradas);
+            }
+            if (inputBuscar.value === "Aceptado") {
+                const listaFiltrada = listaUsuariosHistorial.filter((persona)=>persona.estatus === inputBuscar.value);
+                tituloFiltradoH2.innerHTML = "Solicitudes Aceptadas";
+                contenedorFiltradas.className = "contenedoresSolicitudesJs";
+                mostrarEnPantalla(listaFiltrada, contenedorFiltradas);
+            }
+            if (inputBuscar.value === listaUsuariosHistorial[index].nombre) {
+                const listaFiltrada = listaUsuariosHistorial.filter((persona)=>persona.nombre === inputBuscar.value);
+                tituloFiltradoH2.innerHTML = "Solicitudes filtradas por Nombre";
+                contenedorFiltradas.className = "contenedoresSolicitudesJs";
+                mostrarEnPantalla(listaFiltrada, contenedorFiltradas);
+            }
+            if (inputBuscar.value === listaUsuariosHistorial[index].sede) {
+                const listaFiltrada = listaUsuariosHistorial.filter((persona)=>persona.sede === inputBuscar.value);
+                tituloFiltradoH2.innerHTML = "Solicitudes filtradas por Sede";
+                contenedorFiltradas.className = "contenedoresSolicitudesJs";
+                mostrarEnPantalla(listaFiltrada, contenedorFiltradas);
+            }
+        });
+        btnDejarDeFiltrar.addEventListener("click", function() {
+            location.reload();
+            contenedorFiltradas.style.display = "none";
+            btnDejarDeFiltrar.style.display = "none";
+            contenedorPrincipal.style.display = "block";
+            location.reload();
+        });
+        btnEliminatTodo.addEventListener("click", function() {
+            btnEliminatTodo.style.display = "none";
+            for(let index = 0; index < listaUsuariosHistorial.length; index++){
+                const id = listaUsuariosHistorial[index].id;
+                (0, _delete.deleteHistory)(id);
+            }
+            location.reload();
+        });
+    }
+} //Explicacion de funcionamiento
+ /*
 
-},{}]},["6JHBK","dpzVq"], "dpzVq", "parcelRequire6682")
+        console.log(Array(listaUsuarios)) ----- convierte objeto a lista
+        const map1 = listaUsuarios.map((x) => x.cedula);
+
+        console.log(map1);
+
+        const dividir = map1.toString()
+    
+        st = dividir.slice(0,4)
+        const st2 = dividir.slice(5,9)
+
+        console.log(st2);
+
+
+        console.log(st);
+
+        let vector = Array(st)
+
+        console.log(vector);
+
+        let cadenaT= vector.toString()
+
+        var divisiones = cadenaT.split(" ", 3);
+        
+        console.log(divisiones);
+
+        const unir = divisiones.concat(st2)
+      
+        console.log(unir);
+
+     */  // Expected output:
+
+},{"../server/GetRecuest":"kq1Dl","../server/Delete":"47B0z"}],"kq1Dl":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "GetRecuest", ()=>GetRecuest);
+parcelHelpers.export(exports, "GetRecuestFromHistory", ()=>GetRecuestFromHistory);
+parcelHelpers.export(exports, "GetRecuestFromAcepted", ()=>GetRecuestFromAcepted);
+async function GetRecuest() {
+    try {
+        const response = await fetch(`http://localhost:3003/Recuest`);
+        const data = await response.json();
+        console.log(data);
+        return data;
+    } catch (error) {
+        console.error(error);
+    }
+}
+async function GetRecuestFromHistory() {
+    try {
+        const response = await fetch(`http://localhost:3003/History`);
+        const data = await response.json();
+        console.log(data);
+        return data;
+    } catch (error) {
+        console.error(error);
+    }
+}
+async function GetRecuestFromAcepted() {
+    try {
+        const response = await fetch(`http://localhost:3003/AceptedRecuest`);
+        const data = await response.json();
+        console.log(data);
+        return data;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
+exports.interopDefault = function(a) {
+    return a && a.__esModule ? a : {
+        default: a
+    };
+};
+exports.defineInteropFlag = function(a) {
+    Object.defineProperty(a, "__esModule", {
+        value: true
+    });
+};
+exports.exportAll = function(source, dest) {
+    Object.keys(source).forEach(function(key) {
+        if (key === "default" || key === "__esModule" || dest.hasOwnProperty(key)) return;
+        Object.defineProperty(dest, key, {
+            enumerable: true,
+            get: function() {
+                return source[key];
+            }
+        });
+    });
+    return dest;
+};
+exports.export = function(dest, destName, get) {
+    Object.defineProperty(dest, destName, {
+        enumerable: true,
+        get: get
+    });
+};
+
+},{}],"47B0z":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "deleteUser", ()=>deleteUser);
+parcelHelpers.export(exports, "deleteUserHistory", ()=>deleteUserHistory);
+parcelHelpers.export(exports, "deleteHistory", ()=>deleteHistory);
+async function deleteUser(id) {
+    try {
+        const response = await fetch(`http://localhost:3003/Recuest/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+        if (!response.ok) throw new Error(`Error deleting user with id ${id}`);
+        return {
+            message: `Usuario con id ${id} ha sido eliminado correctamente`
+        };
+    } catch (error) {
+        console.error("Error eliminando id:", error);
+        throw error;
+    }
+}
+async function deleteUserHistory(id) {
+    try {
+        const response = await fetch(`http://localhost:3003/History/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+        if (!response.ok) throw new Error(`Error deleting user with id ${id}`);
+        return {
+            message: `Usuario con id ${id} ha sido eliminado correctamente`
+        };
+    } catch (error) {
+        console.error("Error eliminando id:", error);
+        throw error;
+    }
+}
+async function deleteHistory(id) {
+    try {
+        const response = await fetch(`http://localhost:3003/History/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+        if (!response.ok) throw new Error(`Error deleting user with id ${id}`);
+        return {
+            message: `Usuario con id ${id} ha sido eliminado correctamente`
+        };
+    } catch (error) {
+        console.error("Error eliminando id:", error);
+        throw error;
+    }
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["6JHBK","dpzVq"], "dpzVq", "parcelRequire6682")
 
 //# sourceMappingURL=historialSolicitudes.e8d0ac5a.js.map

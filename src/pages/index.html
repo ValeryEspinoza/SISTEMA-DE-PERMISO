@@ -15,27 +15,29 @@
 			<h2>Solicitudes</h2>
 		</ul>
 		<ul class="columna2">
-
-			<li class="nav-item">
-			  <a class="nav-link active" aria-current="page" href="#">Registrar Usuario</a>
-			</li>
-			<li class="nav-item">
-			  <a class="nav-link" href="#">Solicitudes Aceptadas</a>
-			</li>
-			<li class="nav-item">
-			  <a class="nav-link" href="#">Historial de Solicitudes</a>
-			</li>
+			
+			<li id="btnAdmi1" class="nav-item">
+				<a class="nav-link active" aria-current="page" href=" http://localhost:1234/Registro.html">Registrar Usuario</a>
+			  </li>
+			  <li id="btnAdmi2" class="nav-item">
+				<a class="nav-link" href=" http://localhost:1234/solicitudesAceptadas.html">Solicitudes Aceptadas</a>
+			  </li>
+			  <li id="btnAdmi3" class="nav-item">
+				<a class="nav-link" href=" http://localhost:1234/historialSolicitudes.html">Historial de Solicitudes</a>
+			  </li>
+			  <li id="btnColaborador" class="nav-item">
+				<a class="nav-link active" aria-current="page" href=" http://localhost:1234/login.html">IR A LOGIN</a>
+			  </li>
 			
 		</ul>
 	
 		<ul class="columna3">
 
 			<li class="nav-item">
-			  <select  id="acceso">
-				<!--<option value="">Acceso</option>-->
-				<option value="Administrador">Administrador</option>
-				<!--<option value="Colaborador">Colaborador</option>-->
-			  </select>
+			  <div>
+				<p id="acceso">Colaborador</p>
+				<p id="textoMostrado">c</p>
+			</div>
 			</li>
 
 			<li class="nav-item">
@@ -54,23 +56,29 @@
 	
 	  
 	  <section class="saludo">
-		<div class="contenedorSaludo">
-		 <h2>Formulario de Solicitudes</h2>
+		<div class="contenedorSaludo" id="contenedorTituloPagina">
+		 
 		</div>
 		</section>
 
-		<ul class="ContenedorLista">
+		<ul class="contenedorLista" id="contenedorLista">
 		
-		<div class="contenedorItems">
+		<div id="contenedorItems" class="contenedorItems">
+
 		<li class="item">
-			<input id="nombre" placeholder="Nombre Completo" class="inputStyle" type="text"></input>
+			<input  id="nombre" placeholder="Nombre Completo" class="inputStyle" type="text"></input>
 		</li>
 
 		<li class="item">
 			<input id="id" placeholder="Identificación" class="inputStyle" type="text"></input>
 		</li>
 		<li class="item">
-			<input id="sede" placeholder="Sede" class="inputStyle" type="text"></input>
+			<select id="sede"  class="inputStyle" > 
+				<option value="Sede">Sede</option>
+				<option value="Puntarenas">Puntarenas</option>
+				<option value="Nosara">Nosara</option>
+				<option value="Santa Ana">Santa Ana</option>
+			</select>
 		</li>
 		<li class="item">
 			<input id="laptopCode" placeholder="Codigo de la Computadora" class="inputStyle" type="text"></input>
@@ -94,7 +102,7 @@
 			
 		<button id="aplicar" class="btnStyle">Aplicar Solicitud</button> <br>
 		
-
+		</div>
 		
 	</ul>
 
@@ -120,19 +128,19 @@
             
 			Funcionalidades
         </div>
-
+		
         <div class="footerSections3">
-             
-            
-			<div>
-                Síganos en
-                <div  class="lista2">
+			<h6>Síganos en</h6>
+			
+			<div class="iconsContenedor">
+              
+               
                     
-                    <input class="iconItem" type="image" src="../img/twitter-brands-solid.svg" alt="IconTwitter">
-                    <input class="iconItem" type="image" src="#" alt="IconFacebook">
-                    <input class="iconItem" type="image" src="#" alt="IconInstagram">
-                    <input class="iconItem" type="image" src="#" alt="IconYoutube">
-                </div>
+                    <a href="#"><img class="iconFooter" src="../img/twitter-brands-solid.svg" alt="IconTwitter"></a>
+					<a href="#"><img class="iconFooter" src="../img/facebook-brands-solid.svg" alt="IconFacebook"></a>
+					<a href="#"><img class="iconFooter" src="../img/instagram-brands-solid.svg" alt="IconInstagram"></a>
+					<a href="#"><img class="iconFooter" src="../img/square-youtube-brands-solid.svg" alt="IconYoutube"></a>
+                
             </div>
             
           

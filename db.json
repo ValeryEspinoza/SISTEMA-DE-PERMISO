@@ -1,5 +1,34 @@
 {
-  "users": [
-   
-  ]
+  "Users": [
+    {
+      "id": "8b75",
+      "Nombres": "Valery Isabel",
+      "Apellidos": "Espinoza Quiros",
+      "Correo": "vespinoza@fwdcostarica.com",
+      "Contraseña": "1234",
+      "Cedula": "1214324",
+      "Roll": "Administrador"
+    },
+    {
+      "id": "232d",
+      "Nombres": "Keyla",
+      "Apellidos": "Espinoza Quiros",
+      "Correo": "k@gmail.com",
+      "Contraseña": "4321",
+      "Cedula": "34534654",
+      "Roll": "Colaborador"
+    },
+    {
+      "id": "f48d",
+      "Nombres": "Anthony ",
+      "Apellidos": "Hernandez",
+      "Correo": "a@gmail.com",
+      "Contraseña": "2345",
+      "Cedula": "34645767",
+      "Roll": "Colaborador"
+    }
+  ],
+  "Recuest": [],
+  "History": [],
+  "AceptedRecuest": []
 }

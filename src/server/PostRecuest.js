@@ -13,7 +13,7 @@ async function sendRecuest (nombre, cedula, sede, laptopCode, fechaSalida, fecha
         estatus
       }
   
-      const response = await fetch(`http://localhost:3003/users`, {
+      const response = await fetch(`http://localhost:3003/Recuest`, {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json' 
@@ -32,9 +32,83 @@ async function sendRecuest (nombre, cedula, sede, laptopCode, fechaSalida, fecha
     }
   }
   
-      export{sendRecuest}
+      export {sendRecuest}
 
 
-      
+
+    // Enviar Solicitud a Historial
+   async function sendRecuestToHistory (estatus, id, nombre, cedula, sede, laptopCode, fechaSalida, fechaRegreso) {
+
+
+    try { 
+      const sendRecuest ={
+        estatus,
+         id,
+          nombre, 
+          cedula, 
+          sede, 
+          laptopCode, 
+          fechaSalida, 
+          fechaRegreso
+      }
   
+      const respuesta = await fetch(`http://localhost:3003/History`, {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json' 
+      },
+     
+      body: JSON.stringify(sendRecuest) 
+      
+  });
+  console.log("Solicitud Enviada a Historial");
+  
+  const data = await respuesta.json();
+  return data
    
+    } catch (error) {
+      console.error(error)
+    }
+  }
+  
+      export{sendRecuestToHistory}
+    
+    
+  
+   // Enviar Solicitud a Aceptadas
+   async function sendRecuestToAcepted (estatus, id, nombre, cedula, sede, laptopCode, fechaSalida, fechaRegreso) {
+
+
+    try { 
+      const sendRecuestAcepted ={
+          estatus,
+          id,
+          nombre, 
+          cedula, 
+          sede, 
+          laptopCode, 
+          fechaSalida, 
+          fechaRegreso
+      }
+  
+      const respuesta = await fetch(`http://localhost:3003/AceptedRecuest`, {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json' 
+      },
+     
+      body: JSON.stringify(sendRecuestAcepted) 
+      
+  });
+  console.log("Solicitud Enviada a Acepted Recuest");
+  
+  const dataAcepted = await respuesta.json();
+  return dataAcepted
+   
+    } catch (error) {
+      console.error(error)
+    }
+  }
+  
+      export {sendRecuestToAcepted}
+    

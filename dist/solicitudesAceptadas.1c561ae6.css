@@ -1,0 +1,108 @@
+body {
+  font-family: Courier New, Courier, monospace;
+}
+
+.ContenedorLista {
+  height: auto;
+  width: auto;
+  text-align: center;
+  background-color: #3533338a;
+  align-content: center;
+  padding: 1em;
+  list-style: none;
+}
+
+.contenedorNav {
+  height: 55px;
+  background-color: #d3a785;
+  border-bottom: #000;
+  grid-template-columns: 30% 50% 30%;
+  display: grid;
+}
+
+.nombrePagina {
+  color: #fff;
+  height: 80%;
+  margin-top: 3px;
+}
+
+.columna2 {
+  height: 90%;
+  color: #f0f8ff;
+  grid-template-columns: 30% 30% 30%;
+  list-style: none;
+  display: grid;
+}
+
+.columna3 {
+  height: 90%;
+  color: #f0f8ff;
+  grid-template-columns: 90px 45px 45px 1px;
+  list-style: none;
+  display: grid;
+}
+
+.nav-item {
+  text-align: center;
+  align-content: center;
+}
+
+.nav-item:hover {
+  background-color: #614848;
+  border: 1px solid #ffffff83;
+  font-size: 17px;
+}
+
+.icon {
+  height: 30px;
+  background-color: #d3a785;
+  border-color: #42291b;
+  border-radius: 5px;
+}
+
+.contenedorDegradado {
+  width: 100%;
+  height: 600px;
+  background-color: #1110106e;
+}
+
+.saludo {
+  height: 200px;
+  text-align: center;
+  place-content: center;
+  padding: 1em;
+  display: flex;
+}
+
+.contenedorSaludo {
+  color: #9b4922;
+  width: 60%;
+  background-color: #e8dadac3;
+  align-content: center;
+  padding: 1em;
+  font-size: 20px;
+}
+
+.sectionContenedorSolicitudes {
+  height: auto;
+  text-align: center;
+  background-color: #d3a785;
+}
+
+.contenedorSolicitudes {
+  height: auto;
+  background-color: #6148485b;
+}
+
+.contenedorSearch {
+  justify-content: end;
+  margin-right: 5px;
+  display: flex;
+}
+
+.inputSearch {
+  width: 250px;
+  margin-right: 5px;
+}
+
+/*# sourceMappingURL=solicitudesAceptadas.1c561ae6.css.map */

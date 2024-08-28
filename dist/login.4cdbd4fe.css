@@ -1,0 +1,75 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-image: url("css.3092e1e0.css");
+  background-size: 100%;
+}
+
+.color {
+  color: #fff;
+}
+
+.Registrar {
+  width: 400px;
+  color: #fff;
+  background: #696969;
+  border-radius: 4px;
+  margin: 100px auto auto;
+  padding: 30px;
+  font-family: calibri;
+  box-shadow: 7px 13px 37px #ffdab9;
+}
+
+.registrar h3 {
+  margin-bottom: 20px;
+  font-size: 22px;
+}
+
+.control {
+  width: 100%;
+  background: #d3d3d3;
+  border: 1px solid #ffefd5;
+  border-radius: 4px;
+  margin-bottom: 16px;
+  padding: 10px;
+  font-family: calibri;
+  font-size: 18px;
+}
+
+.control:hover {
+  background-color: #fff;
+  border: 1px solid red;
+}
+
+.Registrar p {
+  height: 40px;
+  text-align: center;
+  font-size: 18px;
+  line-height: 40px;
+}
+
+.Registrar a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.Registrar a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.Registrar .boton {
+  width: 100%;
+  color: #000;
+  background: #ffefd5;
+  border: none;
+  margin: 16px 0;
+  padding: 12px;
+  font-size: 16px;
+}
+
+/*# sourceMappingURL=login.4cdbd4fe.css.map */

@@ -557,10 +557,12 @@ function hmrAccept(bundle, id) {
 }
 
 },{}],"ebWYT":[function(require,module,exports) {
-//Inputs
 //Imports
 var _postRecuest = require("../server/PostRecuest");
 var _getRecuest = require("../server/GetRecuest");
+var _update = require("../server/update");
+var _delete = require("../server/Delete");
+//Inputs
 const inputNombre = document.getElementById("nombre");
 const inputID = document.getElementById("id");
 const inputSede = document.getElementById("sede");
@@ -568,87 +570,163 @@ const inputLaptopCode = document.getElementById("laptopCode");
 const inputFechaS = document.getElementById("fechaS");
 const inputFechaR = document.getElementById("fechaR");
 const checkTerminos = document.getElementById("terminos");
+const textoMostradoAcceso = document.getElementById("textoMostrado");
 //Botones
 const btnAplicar = document.getElementById("aplicar");
 const selectAcceso = document.getElementById("acceso");
+const btnAdministrador1 = document.getElementById("btnAdmi1");
+const btnAdministrador2 = document.getElementById("btnAdmi2");
+const btnAdministrador3 = document.getElementById("btnAdmi3");
+const btnColaboradorLogin = document.getElementById("btnColaborador");
 //contenedores
 const divPrincipal = document.getElementById("contenedorPrincipal");
 const contenedorFondoSolicitudes = document.getElementById("contenedorFondoSolicitudes");
-btnAplicar.addEventListener("click", function() {
-    let men = document.getElementById("men");
-    if (checkTerminos.checked === true) {
-        let pendiente = "Pendiente";
-        (0, _postRecuest.sendRecuest)(inputNombre.value, inputID.value, inputSede.value, inputLaptopCode.value, inputFechaS.value, inputFechaR.value, pendiente);
-    } else {
-        let modal = document.createElement("h5");
-        modal.innerHTML = "\xa1Falta Marcar Terminos Y Condiciones!";
-        men.appendChild(modal);
-    }
-// comentado para continuar programando
-/*if (selectAcceso.value == "Colaborador") {
-        let modal2= document.createElement("p")
-        modal2.innerHTML="¡Solicitud Realizada con exito! Pronto se enviará respuesta a su solicitud"
-        men.appendChild(modal2)
-    }
-
-    if (selectAcceso.value == "Acceso" || selectAcceso.value == "") {
-        let modal3= document.createElement("p")
-        modal3.innerHTML="Debe Ingresar un tipo de acceso"
-        men.appendChild(modal3)
-    }*/ });
-//Cuando el post de nuevos item este actualizada, agregar esto a btnguardar
-if (selectAcceso.value == "Administrador") {
+const contenedorTituloPagina = document.getElementById("contenedorTituloPagina");
+const contenedorListaFormulario = document.getElementById("contenedorLista");
+const contenedorItemsFormulario = document.getElementById("contenedorItems");
+const men = document.getElementById("men");
+//Acceso
+selectAcceso.style.display = "None";
+let user = JSON.parse(localStorage.getItem("usuario"));
+let listaUsuario = Array(user);
+console.log("lista usuario", listaUsuario);
+tipoAcceso = listaUsuario[0].Roll;
+selectAcceso.innerHTML = tipoAcceso;
+let nombreMostrar = listaUsuario[0].Nombres;
+textoMostradoAcceso.innerHTML = nombreMostrar;
+//Validacion ingresar tipo de acceso
+if (selectAcceso.textContent == "Acceso" || selectAcceso.textContent == "") {
+    let modal3 = document.createElement("p");
+    modal3.innerHTML = "Debe Ingresar un tipo de acceso";
+    men.appendChild(modal3);
+}
+//Insetar nombre a formulario y bloquear input
+function noModificar(item) {
+    item.disabled = true;
+}
+let sumaNombreApellido = listaUsuario[0].Nombres + " " + listaUsuario[0].Apellidos;
+inputNombre.value = sumaNombreApellido;
+noModificar(inputNombre);
+let inputcedula = listaUsuario[0].Cedula;
+inputID.value = inputcedula;
+noModificar(inputID);
+//Seccion de Administrador
+if (selectAcceso.textContent == "Administrador") {
+    //Insertar titulo
+    const etiquetaH2Admi = document.createElement("h2");
+    etiquetaH2Admi.innerHTML = "Solicitudes Pendientes";
+    contenedorTituloPagina.appendChild(etiquetaH2Admi);
+    //OCULTAR FORMULARIO
+    contenedorListaFormulario.style.display = "none";
+    contenedorItemsFormulario.style.display = "none";
     console.log("Si puede usar Funciones Administrador");
     async function traerSolicitudes() {
-        let solicitudes = await (0, _getRecuest.GetRecuest)();
-        let tituloSolicitud = document.createElement("h3");
-        tituloSolicitud.innerHTML = "Solicitudes Pendientes";
-        divPrincipal.appendChild(tituloSolicitud);
+        const solicitudes = await (0, _getRecuest.GetRecuest)();
         for(let index = 0; index < solicitudes.length; index++){
             //Get Nombre
-            let contenedorSolicitud = document.createElement("div");
-            let etiquetaNombre = document.createElement("h3");
+            const contenedorSolicitud = document.createElement("div");
+            const etiquetaNombre = document.createElement("h3");
             etiquetaNombre.innerHTML = solicitudes[index].nombre;
             contenedorSolicitud.appendChild(etiquetaNombre);
             divPrincipal.appendChild(contenedorSolicitud);
             //Get Fecha
-            let sumaFechaS = "Fecha Salida: " + solicitudes[index].fechaSalida + " ";
-            let datoFechaS = sumaFechaS;
-            let etiquetaFechaS = document.createElement("p");
+            const sumaFechaS = "Fecha Salida: " + solicitudes[index].fechaSalida + " ";
+            const datoFechaS = sumaFechaS;
+            const etiquetaFechaS = document.createElement("p");
             etiquetaFechaS.innerHTML = datoFechaS;
             contenedorSolicitud.appendChild(etiquetaFechaS);
-            let fechaR = "Fecha Regreso: " + solicitudes[index].fechaRegreso;
-            let datoFechaR = fechaR;
-            let etiquetaFechaR = document.createElement("p");
+            const fechaR = "Fecha Regreso: " + solicitudes[index].fechaRegreso;
+            const datoFechaR = fechaR;
+            const etiquetaFechaR = document.createElement("p");
             etiquetaFechaR.innerHTML = datoFechaR;
             contenedorSolicitud.appendChild(etiquetaFechaR);
             //Get LaptopCode
-            let etiquetaCode = document.createElement("p");
+            const etiquetaCode = document.createElement("p");
             etiquetaCode.innerHTML = "Codigo de Computadora: " + solicitudes[index].laptopCode;
             contenedorSolicitud.appendChild(etiquetaCode);
             //Get Status
-            let etiquetaStatus = document.createElement("h6");
+            const etiquetaStatus = document.createElement("h6");
             etiquetaStatus.innerHTML = solicitudes[index].estatus;
             contenedorSolicitud.appendChild(etiquetaStatus);
             //boton Aceptar
-            let btnAceptar1 = document.createElement("button");
-            btnAceptar1.innerHTML = "Aceptar";
-            contenedorSolicitud.appendChild(btnAceptar1);
+            const btnAceptar = document.createElement("button");
+            btnAceptar.innerHTML = "Aceptar";
+            contenedorSolicitud.appendChild(btnAceptar);
             //Boton Rechazar
-            let btnRechazar = document.createElement("button");
+            const btnRechazar = document.createElement("button");
             btnRechazar.innerHTML = "Declinar";
             contenedorSolicitud.appendChild(btnRechazar);
+            //id
+            const id = solicitudes[index].id;
+            const nombre = solicitudes[index].nombre;
+            const cedula = solicitudes[index].cedula;
+            const sede = solicitudes[index].sede;
+            const laptopCode = solicitudes[index].laptopCode;
+            const fechaS = solicitudes[index].fechaSalida;
+            const fechaRe = solicitudes[index].fechaRegreso;
+            //Evento Btn Aceptar
+            btnAceptar.addEventListener("click", function() {
+                (0, _update.editUsers)("Aceptado", id, nombre, cedula, sede, laptopCode, fechaS, fechaRe);
+                (0, _postRecuest.sendRecuestToHistory)("Aceptado", id, nombre, cedula, sede, laptopCode, fechaS, fechaRe);
+                (0, _postRecuest.sendRecuestToAcepted)("Aceptado", id, nombre, cedula, sede, laptopCode, fechaS, fechaRe);
+                console.log(id);
+                (0, _delete.deleteUser)(id);
+                location.reload();
+            });
+            //Evento Btn Declinar
+            btnRechazar.addEventListener("click", function() {
+                (0, _update.editUsers)("Declinado", id, nombre, cedula, sede, laptopCode, fechaS, fechaRe);
+                (0, _postRecuest.sendRecuestToHistory)("Declinado", id, nombre, cedula, sede, laptopCode, fechaS, fechaRe);
+                (0, _delete.deleteUser)(id);
+                location.reload();
+            });
         }
     }
     traerSolicitudes();
 }
-btnAceptar.addEventListener("click", function() {});
+//Acceso Colaborador
+if (selectAcceso.textContent == "Colaborador") {
+    //Insertar Titulo
+    const etiquetaH2Formulario = document.createElement("h2");
+    etiquetaH2Formulario.innerHTML = "Formulario de Solicitudes";
+    contenedorTituloPagina.appendChild(etiquetaH2Formulario);
+    //Oculta las funciones Administrador
+    console.log("Ha ingresador como Colaborador");
+    btnAdministrador1.style.display = "none";
+    btnAdministrador2.style.display = "none";
+    btnAdministrador3.style.display = "none";
+    //Evento Aplicar
+    btnAplicar.addEventListener("click", function() {
+        console.log("Boton funciona");
+        //Validacion de espacios vacios
+        console.log("Sede", inputSede.textContent === "Sede");
+        if (inputNombre.value == "" || inputID.value == "" || inputSede.value == "" || inputLaptopCode.value == "" || inputFechaS.value == "" || inputFechaR.value == "" || checkTerminos.checked === false || inputSede.value === "Sede") {
+            console.log(1234);
+            setTimeout(function() {
+                let modal7 = document.createElement("p");
+                modal7.innerHTML = "\xa1No puede quedar ningun espacio sin llenar";
+                men.appendChild(modal7);
+            }, 1000);
+            console.log("Falta llenar espacios");
+        } else {
+            setTimeout(function() {
+                let modal2 = document.createElement("p");
+                modal2.innerHTML = "\xa1Solicitud Realizada con exito! Pronto se enviar\xe1 respuesta a su solicitud";
+                men.appendChild(modal2);
+            }, 1000);
+            console.log("\xa1Solicitud Realizada con exito! Pronto se enviar\xe1 respuesta a su solicitud");
+            (0, _postRecuest.sendRecuest)(inputNombre.value, inputID.value, inputSede.value, inputLaptopCode.value, inputFechaS.value, inputFechaR.value, "Pendiente");
+        }
+    });
+}
 
-},{"../server/PostRecuest":"39ZWR","../server/GetRecuest":"kq1Dl"}],"39ZWR":[function(require,module,exports) {
+},{"../server/PostRecuest":"39ZWR","../server/GetRecuest":"kq1Dl","../server/update":"bUBaq","../server/Delete":"47B0z"}],"39ZWR":[function(require,module,exports) {
 //envio de solicitud a endpoint 3004
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "sendRecuest", ()=>sendRecuest);
+parcelHelpers.export(exports, "sendRecuestToHistory", ()=>sendRecuestToHistory);
+parcelHelpers.export(exports, "sendRecuestToAcepted", ()=>sendRecuestToAcepted);
 async function sendRecuest(nombre, cedula, sede, laptopCode, fechaSalida, fechaRegreso, estatus) {
     try {
         const newRecuest = {
@@ -660,7 +738,7 @@ async function sendRecuest(nombre, cedula, sede, laptopCode, fechaSalida, fechaR
             fechaRegreso,
             estatus
         };
-        const response = await fetch(`http://localhost:3003/users`, {
+        const response = await fetch(`http://localhost:3003/Recuest`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -670,6 +748,60 @@ async function sendRecuest(nombre, cedula, sede, laptopCode, fechaSalida, fechaR
         console.log("Solicitud Aplicada");
         const datos = await response.json();
         return datos;
+    } catch (error) {
+        console.error(error);
+    }
+}
+// Enviar Solicitud a Historial
+async function sendRecuestToHistory(estatus, id, nombre, cedula, sede, laptopCode, fechaSalida, fechaRegreso) {
+    try {
+        const sendRecuest = {
+            estatus,
+            id,
+            nombre,
+            cedula,
+            sede,
+            laptopCode,
+            fechaSalida,
+            fechaRegreso
+        };
+        const respuesta = await fetch(`http://localhost:3003/History`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(sendRecuest)
+        });
+        console.log("Solicitud Enviada a Historial");
+        const data = await respuesta.json();
+        return data;
+    } catch (error) {
+        console.error(error);
+    }
+}
+// Enviar Solicitud a Aceptadas
+async function sendRecuestToAcepted(estatus, id, nombre, cedula, sede, laptopCode, fechaSalida, fechaRegreso) {
+    try {
+        const sendRecuestAcepted = {
+            estatus,
+            id,
+            nombre,
+            cedula,
+            sede,
+            laptopCode,
+            fechaSalida,
+            fechaRegreso
+        };
+        const respuesta = await fetch(`http://localhost:3003/AceptedRecuest`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(sendRecuestAcepted)
+        });
+        console.log("Solicitud Enviada a Acepted Recuest");
+        const dataAcepted = await respuesta.json();
+        return dataAcepted;
     } catch (error) {
         console.error(error);
     }
@@ -709,14 +841,124 @@ exports.export = function(dest, destName, get) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "GetRecuest", ()=>GetRecuest);
+parcelHelpers.export(exports, "GetRecuestFromHistory", ()=>GetRecuestFromHistory);
+parcelHelpers.export(exports, "GetRecuestFromAcepted", ()=>GetRecuestFromAcepted);
 async function GetRecuest() {
     try {
-        const response = await fetch(`http://localhost:3003/users`);
+        const response = await fetch(`http://localhost:3003/Recuest`);
         const data = await response.json();
         console.log(data);
         return data;
     } catch (error) {
         console.error(error);
+    }
+}
+async function GetRecuestFromHistory() {
+    try {
+        const response = await fetch(`http://localhost:3003/History`);
+        const data = await response.json();
+        console.log(data);
+        return data;
+    } catch (error) {
+        console.error(error);
+    }
+}
+async function GetRecuestFromAcepted() {
+    try {
+        const response = await fetch(`http://localhost:3003/AceptedRecuest`);
+        const data = await response.json();
+        console.log(data);
+        return data;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"bUBaq":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "editUsers", ()=>editUsers);
+async function editUsers(estatus, id, nombre, cedula, sede, laptopCode, fechaSalida, fechaRegreso) {
+    try {
+        const usuarioEditar = {
+            estatus,
+            nombre,
+            cedula,
+            sede,
+            laptopCode,
+            fechaSalida,
+            fechaRegreso
+        };
+        const respuesta = await fetch(`http://localhost:3003/Recuest/${id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(usuarioEditar) // Convierte el objeto newUser a JSON para enviarlo en el cuerpo de la solicitud
+        });
+        console.log("Edicion Exitosa");
+        const data = await respuesta.json();
+        return data;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"47B0z":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "deleteUser", ()=>deleteUser);
+parcelHelpers.export(exports, "deleteUserHistory", ()=>deleteUserHistory);
+parcelHelpers.export(exports, "deleteHistory", ()=>deleteHistory);
+async function deleteUser(id) {
+    try {
+        const response = await fetch(`http://localhost:3003/Recuest/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+        if (!response.ok) throw new Error(`Error deleting user with id ${id}`);
+        return {
+            message: `Usuario con id ${id} ha sido eliminado correctamente`
+        };
+    } catch (error) {
+        console.error("Error eliminando id:", error);
+        throw error;
+    }
+}
+async function deleteUserHistory(id) {
+    try {
+        const response = await fetch(`http://localhost:3003/History/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+        if (!response.ok) throw new Error(`Error deleting user with id ${id}`);
+        return {
+            message: `Usuario con id ${id} ha sido eliminado correctamente`
+        };
+    } catch (error) {
+        console.error("Error eliminando id:", error);
+        throw error;
+    }
+}
+async function deleteHistory(id) {
+    try {
+        const response = await fetch(`http://localhost:3003/History/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+        if (!response.ok) throw new Error(`Error deleting user with id ${id}`);
+        return {
+            message: `Usuario con id ${id} ha sido eliminado correctamente`
+        };
+    } catch (error) {
+        console.error("Error eliminando id:", error);
+        throw error;
     }
 }
 
